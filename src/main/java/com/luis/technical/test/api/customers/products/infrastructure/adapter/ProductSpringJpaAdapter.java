@@ -41,6 +41,7 @@ public class ProductSpringJpaAdapter implements ProductPort {
     @Override
     public Product update(Long id, Product product) {
         ProductEntity productNew = productDboMapper.toDbo(product);
+        productNew.setId(id);
         ProductEntity productEntity = productRepository.save(productNew);
         return productDboMapper.toDomain(productEntity);
     }
