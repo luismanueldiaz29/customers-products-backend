@@ -17,8 +17,8 @@ import java.util.regex.Pattern;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CustomerRequest {
-    private Long id;
     private String identificationType;
+    private String identification;
     private String name;
     private String lastName;
     private String email;

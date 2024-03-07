@@ -3,6 +3,7 @@ package com.luis.technical.test.api.customers.products.application.usecase;
 import com.luis.technical.test.api.customers.products.domain.model.dto.request.ProductRequest;
 import com.luis.technical.test.api.customers.products.domain.model.dto.response.ProductResponse;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ProductUseCase {
@@ -10,4 +11,5 @@ public interface ProductUseCase {
     ProductResponse save(ProductRequest productRequest);
     void deleteById(Long id);
     ProductResponse update(Long id, ProductRequest productRequest);
+    List<ProductResponse> findByAll();
 }

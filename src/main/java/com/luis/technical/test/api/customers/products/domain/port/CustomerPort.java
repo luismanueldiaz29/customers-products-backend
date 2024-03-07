@@ -2,6 +2,7 @@ package com.luis.technical.test.api.customers.products.domain.port;
 
 import com.luis.technical.test.api.customers.products.domain.model.Customer;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface CustomerPort {
@@ -9,4 +10,5 @@ public interface CustomerPort {
     Customer save(Customer customer);
     void deleteById(Long id);
     Customer update(Long id, Customer customer);
+    List<Customer> findAll();
 }

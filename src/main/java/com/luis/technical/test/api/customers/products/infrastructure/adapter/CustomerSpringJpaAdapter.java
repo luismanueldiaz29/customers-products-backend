@@ -7,6 +7,7 @@ import com.luis.technical.test.api.customers.products.infrastructure.adapter.map
 import com.luis.technical.test.api.customers.products.infrastructure.adapter.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -43,5 +44,10 @@ public class CustomerSpringJpaAdapter implements CustomerPort {
         CustomerEntity customerNew = customerDboMapper.toDbo(customer);
         CustomerEntity customerEntity = customerRepository.save(customerNew);
         return customerDboMapper.toDomain(customerEntity);
+    }
+
+    @Override
+    public List<Customer> findAll() {
+        return customerRepository.findAll().stream().map(customerDboMapper::toDomain).toList();
     }
 }

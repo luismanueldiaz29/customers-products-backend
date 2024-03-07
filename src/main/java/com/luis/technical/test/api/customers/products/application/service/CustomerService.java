@@ -9,6 +9,7 @@ import com.luis.technical.test.api.customers.products.infrastructure.adapter.Cus
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -52,5 +53,10 @@ public class CustomerService implements CustomerUseCase {
 
         Customer customer = customerSpringJpaAdapter.update(id, customerNew);
         return customerDtoMapper.toDto(customer);
+    }
+
+    @Override
+    public List<CustomerResponse> findByAll() {
+        return customerSpringJpaAdapter.findAll().stream().map(customerDtoMapper::toDto).toList();
     }
 }

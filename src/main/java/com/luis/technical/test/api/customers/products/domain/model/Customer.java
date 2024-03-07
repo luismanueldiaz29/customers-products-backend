@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
 public class Customer {
     private Long id;
     private String identificationType;
+    private String identification;
     private String name;
     private String lastName;
     private String email;
@@ -24,18 +25,18 @@ public class Customer {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Customer(Long id, String identificationType, String name, String lastName, String email, LocalDate bornDate, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        if (name.length() < 2)
-            throw new IllegalArgumentException(CustomerConstant.MIN_NAME_LENGTH_ERROR);
-
-        if (lastName.length() < 2)
-            throw new IllegalArgumentException(CustomerConstant.MIN_LASTNAME_LENGTH_ERROR);
-
-        if (isOlder(bornDate))
-            throw new IllegalArgumentException(CustomerConstant.ADULT_VALIDATION_ERROR);
-
-        if (!isValidEmail(email))
-            throw new IllegalArgumentException(CustomerConstant.INVALID_EMAIL_FORMAT_ERROR);
+    public Customer(Long id, String identificationType, String identification, String name, String lastName, String email, LocalDate bornDate, LocalDateTime createdAt, LocalDateTime updatedAt) {
+//        if (name.length() < 2)
+//            throw new IllegalArgumentException(CustomerConstant.MIN_NAME_LENGTH_ERROR);
+//
+//        if (lastName.length() < 2)
+//            throw new IllegalArgumentException(CustomerConstant.MIN_LASTNAME_LENGTH_ERROR);
+//
+//        if (isOlder(bornDate))
+//            throw new IllegalArgumentException(CustomerConstant.ADULT_VALIDATION_ERROR);
+//
+//        if (!isValidEmail(email))
+//            throw new IllegalArgumentException(CustomerConstant.INVALID_EMAIL_FORMAT_ERROR);
 
 
         this.id = id;
@@ -46,6 +47,7 @@ public class Customer {
         this.bornDate = bornDate;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.identification = identification;
     }
 
     private boolean isOlder(LocalDate bornDate){

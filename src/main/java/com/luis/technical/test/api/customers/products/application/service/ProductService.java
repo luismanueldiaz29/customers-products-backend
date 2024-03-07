@@ -9,6 +9,7 @@ import com.luis.technical.test.api.customers.products.infrastructure.adapter.Pro
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -54,5 +55,10 @@ public class ProductService implements ProductUseCase {
 
         Product product = productSpringJpaAdapter.update(id, productNew);
         return productDtoMapper.toDto(product);
+    }
+
+    @Override
+    public List<ProductResponse> findByAll() {
+        return productSpringJpaAdapter.findAll().stream().map(productDtoMapper::toDto).toList();
     }
 }

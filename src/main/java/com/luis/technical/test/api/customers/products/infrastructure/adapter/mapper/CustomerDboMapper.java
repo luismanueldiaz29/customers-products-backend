@@ -1,9 +1,12 @@
 package com.luis.technical.test.api.customers.products.infrastructure.adapter.mapper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.luis.technical.test.api.customers.products.domain.model.Customer;
 import com.luis.technical.test.api.customers.products.infrastructure.adapter.entity.CustomerEntity;
 import org.springframework.stereotype.Component;
+
+import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 
 @Component
 public class CustomerDboMapper {
@@ -11,6 +14,8 @@ public class CustomerDboMapper {
 
     public CustomerDboMapper(){
         this.objectMapper = new ObjectMapper();
+        this.objectMapper.registerModule(new JavaTimeModule());
+        this.objectMapper.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     public CustomerEntity toDbo(Customer entity){

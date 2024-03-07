@@ -21,9 +21,10 @@ public class CustomerEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String identificationType;
+    private String identification;
     private String name;
     private String lastName;
-    private String mail;
+    private String email;
     private LocalDate bornDate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

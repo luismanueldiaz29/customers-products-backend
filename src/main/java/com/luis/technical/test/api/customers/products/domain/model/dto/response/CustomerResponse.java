@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 public class CustomerResponse {
     private Long id;
     private String identificationType;
+    private String identification;
     private String name;
     private String lastName;
     private String email;

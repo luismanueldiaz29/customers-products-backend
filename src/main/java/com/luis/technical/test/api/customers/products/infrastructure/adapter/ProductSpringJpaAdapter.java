@@ -7,12 +7,14 @@ import com.luis.technical.test.api.customers.products.infrastructure.adapter.map
 import com.luis.technical.test.api.customers.products.infrastructure.adapter.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ProductSpringJpaAdapter implements ProductPort {
     private final ProductRepository productRepository;
     private final ProductDboMapper productDboMapper;
+
     public ProductSpringJpaAdapter(
             ProductRepository productRepository,
             ProductDboMapper productDboMapper
@@ -44,5 +46,10 @@ public class ProductSpringJpaAdapter implements ProductPort {
         productNew.setId(id);
         ProductEntity productEntity = productRepository.save(productNew);
         return productDboMapper.toDomain(productEntity);
+    }
+
+    @Override
+    public List<Product> findAll() {
+        return productRepository.findAll().stream().map(productDboMapper::toDomain).toList();
     }
 }
