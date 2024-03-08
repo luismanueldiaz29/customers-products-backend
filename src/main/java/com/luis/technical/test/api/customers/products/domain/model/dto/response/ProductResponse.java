@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -17,7 +18,7 @@ public class ProductResponse {
     private String accountType;
     private String accountNumber;
     private String status;
-    private double balance;
+    private BigDecimal amount;
     private boolean gmfExempt;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;

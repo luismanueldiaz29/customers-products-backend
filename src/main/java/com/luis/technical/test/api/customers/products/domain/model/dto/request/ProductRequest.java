@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -14,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class ProductRequest {
     private AccountType accountType;
     private StatusType status;
-    private double balance;
+    private BigDecimal amount;
     private boolean gmfExempt;
     private Long customerId;
 }

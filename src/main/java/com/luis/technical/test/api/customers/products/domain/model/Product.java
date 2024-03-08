@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Random;
 
@@ -18,14 +19,14 @@ public class Product {
     private String accountType;
     private String accountNumber;
     private String status;
-    private double balance;
+    private BigDecimal amount;
     private boolean gmfExempt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Customer customer;
 
     public boolean balanceIsValid(){
-        return balance >= 0;
+        return amount.longValue() >= 0;
     }
 
     public String generateAccountNumber() {
@@ -44,6 +45,18 @@ public class Product {
     }
 
     public boolean canInactivateAccount(){
-        return balance == 0;
+        return amount.longValue() == 0;
+    }
+
+    public Boolean isBalanceGreaterThan(BigDecimal anotherAmount) {
+        return this.amount.compareTo(anotherAmount) >= 0;
+    }
+
+    public void plus(BigDecimal amount) {
+        this.amount = this.amount.add(amount);
+    }
+
+    public void subtract(BigDecimal amount) {
+        this.amount = this.amount.subtract(amount);
     }
 }

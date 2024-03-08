@@ -29,6 +29,11 @@ public class ProductSpringJpaAdapter implements ProductPort {
     }
 
     @Override
+    public Optional<Product> findByAccountNumber(String accountNumber) {
+        return productRepository.findByAccountNumber(accountNumber).map(productDboMapper::toDomain);
+    }
+
+    @Override
     public Product save(Product product) {
         ProductEntity productNew = productDboMapper.toDbo(product);
         ProductEntity productEntity = productRepository.save(productNew);

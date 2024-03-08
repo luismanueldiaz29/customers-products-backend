@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -21,7 +23,7 @@ public class ProductEntity {
     private String accountType;
     private String accountNumber;
     private String status;
-    private double balance;
+    private BigDecimal amount;
     private boolean gmfExempt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
