@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  backend-store:
+    container_name: backend-store
+    image: backend-store
+    build: .
+    restart: always
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - postgres-store
+    environment:
+      PORT: ${PORT}
+      JDBC_URL: ${JDBC_URL}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+
+  postgres-store:
+    container_name: postgres-store
+    image: postgres:14.4-alpine
+    volumes:
+      - ${DB_VOLUME_DIR}:/var/lib/postgresql/
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "${DB_PORT}:5432"
