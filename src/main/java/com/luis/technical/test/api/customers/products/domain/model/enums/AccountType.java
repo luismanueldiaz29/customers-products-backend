@@ -2,7 +2,7 @@ package com.luis.technical.test.api.customers.products.domain.model.enums;
 
 public enum AccountType {
     CHECKING_ACCOUNT("CUENTA CORRIENTE"),
-    SAVINGS_ACCOUNT("CUENTA DE AHORRO");
+    SAVING_ACCOUNT("CUENTA DE AHORRO");
 
     private final String accountType;
 

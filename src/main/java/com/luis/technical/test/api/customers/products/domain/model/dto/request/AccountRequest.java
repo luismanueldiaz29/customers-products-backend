@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductRequest {
+public class AccountRequest {
     private AccountType accountType;
     private StatusType status;
     private BigDecimal amount;

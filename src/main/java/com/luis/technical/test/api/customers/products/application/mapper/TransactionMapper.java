@@ -2,12 +2,8 @@ package com.luis.technical.test.api.customers.products.application.mapper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.luis.technical.test.api.customers.products.domain.model.Customer;
-import com.luis.technical.test.api.customers.products.domain.model.Product;
 import com.luis.technical.test.api.customers.products.domain.model.Transaction;
-import com.luis.technical.test.api.customers.products.domain.model.dto.request.ProductRequest;
 import com.luis.technical.test.api.customers.products.domain.model.dto.request.TransactionRequest;
-import com.luis.technical.test.api.customers.products.domain.model.dto.response.ProductResponse;
 import com.luis.technical.test.api.customers.products.domain.model.dto.response.TransactionResponse;
 import org.springframework.stereotype.Component;
 

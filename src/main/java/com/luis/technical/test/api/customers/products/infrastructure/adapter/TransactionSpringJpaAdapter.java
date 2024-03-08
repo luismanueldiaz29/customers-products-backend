@@ -8,6 +8,7 @@ import com.luis.technical.test.api.customers.products.infrastructure.adapter.rep
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TransactionSpringJpaAdapter implements TransactionPort {
@@ -24,6 +25,11 @@ public class TransactionSpringJpaAdapter implements TransactionPort {
     @Override
     public List<Transaction> findAll() {
         return transactionRepository.findAll().stream().map(transactionDboMapper::toDomain).toList();
+    }
+
+    @Override
+    public Optional<Transaction> findById(Long id) {
+        return transactionRepository.findById(id).map(transactionDboMapper::toDomain);
     }
 
     @Override

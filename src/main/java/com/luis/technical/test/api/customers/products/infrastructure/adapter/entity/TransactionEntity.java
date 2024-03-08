@@ -26,8 +26,8 @@ public class TransactionEntity {
     private BigDecimal amount;
 
     @ManyToOne
-    private ProductEntity sourceAccount;
+    private AccountEntity sourceAccount;
 
     @ManyToOne
-    private ProductEntity destinationAccount;
+    private AccountEntity destinationAccount;
 }

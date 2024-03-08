@@ -16,6 +16,6 @@ public class Transaction {
     private Long id;
     private TransactionType type;
     private BigDecimal amount;
-    private Product sourceAccount;
-    private Product destinationAccount;
+    private Account sourceAccount;
+    private Account destinationAccount;
 }

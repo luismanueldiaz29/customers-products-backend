@@ -2,30 +2,31 @@ package com.luis.technical.test.api.customers.products.application.service;
 
 import com.luis.technical.test.api.customers.products.application.mapper.TransactionMapper;
 import com.luis.technical.test.api.customers.products.application.usecase.TransactionUseCase;
-import com.luis.technical.test.api.customers.products.domain.model.Product;
+import com.luis.technical.test.api.customers.products.domain.model.Account;
 import com.luis.technical.test.api.customers.products.domain.model.Transaction;
 import com.luis.technical.test.api.customers.products.domain.model.constant.TransactionConstant;
 import com.luis.technical.test.api.customers.products.domain.model.dto.request.TransactionRequest;
 import com.luis.technical.test.api.customers.products.domain.model.dto.response.TransactionResponse;
 import com.luis.technical.test.api.customers.products.domain.model.enums.TransactionType;
-import com.luis.technical.test.api.customers.products.domain.port.ProductPort;
+import com.luis.technical.test.api.customers.products.domain.port.AccountPort;
 import com.luis.technical.test.api.customers.products.domain.port.TransactionPort;
 import com.luis.technical.test.api.customers.products.infrastructure.adapter.exception.TransactionException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class TransactionService implements TransactionUseCase {
     private final TransactionPort transactionPort;
     private final TransactionMapper transactionMapper;
-    private final ProductPort productPort;
+    private final AccountPort productPort;
 
     public TransactionService(
             TransactionPort transactionPort,
             TransactionMapper transactionMapper,
-            ProductPort productPort
+            AccountPort productPort
     ) {
         this.transactionPort = transactionPort;
         this.transactionMapper = transactionMapper;
@@ -36,14 +37,14 @@ public class TransactionService implements TransactionUseCase {
     @Override
     @Transactional
     public TransactionResponse sendTransaction(TransactionRequest transactionRequest) {
-        Optional<Product> sourceAccount = productPort.findByAccountNumber(transactionRequest.getSourceAccountNumber());
+        Optional<Account> sourceAccount = productPort.findByAccountNumber(transactionRequest.getSourceAccountNumber());
         if (sourceAccount.isEmpty())
             throw new TransactionException(TransactionConstant.ACCOUNT_SOURCE_NOT_FOUND);
+        if (!sourceAccount.get().isBalanceGreaterThan(transactionRequest.getAmount()))
+            throw new TransactionException(TransactionConstant.ACCOUNT_NOT_HAVE_ENOUGH_BALANCE);
 
-        Optional<Product> destinationAccount = Optional.empty();
+        Optional<Account> destinationAccount = Optional.empty();
         if (transactionRequest.getType().equals(TransactionType.WITHDRAWAL)) {
-            if (!sourceAccount.get().isBalanceGreaterThan(transactionRequest.getAmount()))
-                throw new TransactionException(TransactionConstant.ACCOUNT_NOT_HAVE_ENOUGH_BALANCE);
             sourceAccount.get().subtract(transactionRequest.getAmount());
         } else {
             destinationAccount = productPort.findByAccountNumber(transactionRequest.getDestinationAccountNumber());
@@ -60,7 +61,17 @@ public class TransactionService implements TransactionUseCase {
         return transactionMapper.toDto(savedTransaction);
     }
 
-    private Transaction getTransaction(TransactionRequest transactionRequest, Optional<Product> destinationAccount, Product sourceAccount) {
+    @Override
+    public List<TransactionResponse> findAll() {
+        return transactionPort.findAll().stream().map(transactionMapper::toDto).toList();
+    }
+
+    @Override
+    public Optional<TransactionResponse> findById(Long id) {
+        return transactionPort.findById(id).map(transactionMapper::toDto);
+    }
+
+    private Transaction getTransaction(TransactionRequest transactionRequest, Optional<Account> destinationAccount, Account sourceAccount) {
         return Transaction.builder()
                 .amount(transactionRequest.getAmount())
                 .destinationAccount(destinationAccount.orElse(null))

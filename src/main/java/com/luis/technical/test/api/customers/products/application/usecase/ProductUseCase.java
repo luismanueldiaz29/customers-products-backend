@@ -1,15 +1,15 @@
 package com.luis.technical.test.api.customers.products.application.usecase;
 
-import com.luis.technical.test.api.customers.products.domain.model.dto.request.ProductRequest;
-import com.luis.technical.test.api.customers.products.domain.model.dto.response.ProductResponse;
+import com.luis.technical.test.api.customers.products.domain.model.dto.request.AccountRequest;
+import com.luis.technical.test.api.customers.products.domain.model.dto.response.AccountResponse;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ProductUseCase {
-    Optional<ProductResponse> findById(Long id);
-    ProductResponse save(ProductRequest productRequest);
+    Optional<AccountResponse> findById(Long id);
+    AccountResponse save(AccountRequest productRequest);
     void deleteById(Long id);
-    ProductResponse update(Long id, ProductRequest productRequest);
-    List<ProductResponse> findByAll();
+    AccountResponse update(Long id, AccountRequest productRequest);
+    List<AccountResponse> findByAll();
 }

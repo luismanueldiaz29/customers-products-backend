@@ -1,6 +1,5 @@
 package com.luis.technical.test.api.customers.products.domain.model.dto.request;
 
-import com.luis.technical.test.api.customers.products.domain.model.Product;
 import com.luis.technical.test.api.customers.products.domain.model.enums.TransactionType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

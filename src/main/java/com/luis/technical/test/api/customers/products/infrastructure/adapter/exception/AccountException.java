@@ -1,7 +1,7 @@
 package com.luis.technical.test.api.customers.products.infrastructure.adapter.exception;
 
-public class ProductException extends RuntimeException{
-    public ProductException(String message){
+public class AccountException extends RuntimeException{
+    public AccountException(String message){
         super(message);
     }
 }

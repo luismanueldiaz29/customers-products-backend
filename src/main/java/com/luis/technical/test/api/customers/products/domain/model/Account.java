@@ -14,7 +14,7 @@ import java.util.Random;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product {
+public class Account {
     private Long id;
     private String accountType;
     private String accountNumber;
@@ -32,7 +32,7 @@ public class Product {
     public String generateAccountNumber() {
         if (accountType.equals(AccountType.CHECKING_ACCOUNT.toString())) {
             return "33" + generarNumeroAleatorio();
-        } else if (accountType.equals(AccountType.SAVINGS_ACCOUNT.toString())) {
+        } else if (accountType.equals(AccountType.SAVING_ACCOUNT.toString())) {
             return  "53" + generarNumeroAleatorio();
         }
         return "";
@@ -48,7 +48,7 @@ public class Product {
         return amount.longValue() == 0;
     }
 
-    public Boolean isBalanceGreaterThan(BigDecimal anotherAmount) {
+    public boolean isBalanceGreaterThan(BigDecimal anotherAmount) {
         return this.amount.compareTo(anotherAmount) >= 0;
     }
 

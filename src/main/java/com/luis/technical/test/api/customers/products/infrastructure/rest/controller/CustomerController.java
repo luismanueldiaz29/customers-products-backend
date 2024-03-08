@@ -17,12 +17,12 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public CustomerResponse getById(@PathVariable Long id){
-        return customerUseCase.findById(id).get();
+    public CustomerResponse findById(@PathVariable Long id){
+        return customerUseCase.findById(id).orElse(null);
     }
 
     @GetMapping
-    public List<CustomerResponse> getAll() {
+    public List<CustomerResponse> findAll() {
         return customerUseCase.findByAll();
     }
 

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductResponse {
+public class AccountResponse {
     private Long id;
     private String accountType;
     private String accountNumber;
