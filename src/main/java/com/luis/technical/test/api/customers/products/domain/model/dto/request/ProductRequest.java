@@ -13,9 +13,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProductRequest {
     private AccountType accountType;
-    private String accountNumber;
     private StatusType status;
-    private String balance;
+    private double balance;
     private boolean gmfExempt;
     private Long customerId;
 }

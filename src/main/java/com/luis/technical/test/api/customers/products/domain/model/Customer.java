@@ -30,10 +30,13 @@ public class Customer {
     private LocalDateTime updatedAt;
 
     public boolean isOlder(){
+        if (this.bornDate == null)
+            return false;
         return Period.between(this.bornDate, LocalDate.now()).getYears() > AGE_OLDER;
     }
 
     public boolean isValidEmail() {
+        if (email == null) return false;
         String emailPattern = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$";
         Pattern pattern = Pattern.compile(emailPattern);
         Matcher matcher = pattern.matcher(this.email);
@@ -41,6 +44,9 @@ public class Customer {
     }
 
     public boolean isNameCorrect() {
+        if (this.name == null || this.lastName == null)
+            return false;
+
         return this.name.length() > 2 && this.lastName.length() > 2;
     }
 }

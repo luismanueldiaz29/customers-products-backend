@@ -17,7 +17,7 @@ public class ProductResponse {
     private String accountType;
     private String accountNumber;
     private String status;
-    private String balance;
+    private double balance;
     private boolean gmfExempt;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;

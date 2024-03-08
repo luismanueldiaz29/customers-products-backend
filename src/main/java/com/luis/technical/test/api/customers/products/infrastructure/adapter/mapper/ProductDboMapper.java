@@ -18,8 +18,8 @@ public class ProductDboMapper {
         this.objectMapper.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
-    public ProductEntity toDbo(Product entity){
-        return objectMapper.convertValue(entity, ProductEntity.class);
+    public ProductEntity toDbo(Product domain){
+        return objectMapper.convertValue(domain, ProductEntity.class);
     }
 
     public Product toDomain(ProductEntity domain){

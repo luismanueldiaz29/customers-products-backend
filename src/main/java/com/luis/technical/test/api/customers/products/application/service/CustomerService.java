@@ -36,13 +36,13 @@ public class CustomerService implements CustomerUseCase {
     public CustomerResponse save(CustomerRequest customerRequest) {
         Customer domain = customerDtoMapper.toDomain(customerRequest);
 
-        if (domain.isOlder())
+        if (!domain.isOlder())
             throw new CustomerException(CustomerConstant.ADULT_VALIDATION_ERROR);
 
-        if (domain.isNameCorrect())
+        if (!domain.isNameCorrect())
             throw new CustomerException(CustomerConstant.MIN_NAME_OR_LASTNAME_LENGTH_ERROR);
 
-        if (domain.isValidEmail())
+        if (!domain.isValidEmail())
             throw new CustomerException(CustomerConstant.INVALID_EMAIL_FORMAT_ERROR);
 
         domain.setCreatedAt(LocalDateTime.now());
@@ -65,11 +65,21 @@ public class CustomerService implements CustomerUseCase {
         if (customerResponse.isEmpty())
             throw new CustomerException(CustomerConstant.CUSTOMER_NOT_FOUND);
 
-        Customer customerNew = customerDtoMapper.toDomain(customerRequest);
-        customerNew.setCreatedAt(customerResponse.get().getCreatedAt());
-        customerNew.setUpdatedAt(LocalDateTime.now());
+        Customer customerUpdate = customerDtoMapper.toDomain(customerRequest);
 
-        Customer customer = customerSpringJpaAdapter.update(id, customerNew);
+        if (!customerUpdate.isOlder())
+            throw new CustomerException(CustomerConstant.ADULT_VALIDATION_ERROR);
+
+        if (!customerUpdate.isNameCorrect())
+            throw new CustomerException(CustomerConstant.MIN_NAME_OR_LASTNAME_LENGTH_ERROR);
+
+        if (!customerUpdate.isValidEmail())
+            throw new CustomerException(CustomerConstant.INVALID_EMAIL_FORMAT_ERROR);
+
+        customerUpdate.setCreatedAt(customerResponse.get().getCreatedAt());
+        customerUpdate.setUpdatedAt(LocalDateTime.now());
+
+        Customer customer = customerSpringJpaAdapter.update(id, customerUpdate);
         return customerDtoMapper.toDto(customer);
     }
 
