@@ -14,10 +14,8 @@ import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKN
 public class AccountDtoMapper {
     private final ObjectMapper objectMapper;
 
-    public AccountDtoMapper(){
-        this.objectMapper = new ObjectMapper();
-        this.objectMapper.registerModule(new JavaTimeModule());
-        this.objectMapper.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
+    public AccountDtoMapper(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
     }
 
     public AccountResponse toDto(Account entity){
