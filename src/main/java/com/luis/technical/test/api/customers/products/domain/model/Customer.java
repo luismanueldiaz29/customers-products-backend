@@ -1,6 +1,5 @@
 package com.luis.technical.test.api.customers.products.domain.model;
 
-import com.luis.technical.test.api.customers.products.domain.model.constant.CustomerConstant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,24 +28,24 @@ public class Customer {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public boolean isOlder(){
+    public boolean isNotOlder(){
         if (this.bornDate == null)
-            return false;
-        return Period.between(this.bornDate, LocalDate.now()).getYears() > AGE_OLDER;
+            return true;
+        return Period.between(this.bornDate, LocalDate.now()).getYears() < AGE_OLDER;
     }
 
-    public boolean isValidEmail() {
-        if (email == null) return false;
+    public boolean isNotValidEmail() {
+        if (email == null) return true;
         String emailPattern = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$";
         Pattern pattern = Pattern.compile(emailPattern);
         Matcher matcher = pattern.matcher(this.email);
-        return matcher.matches();
+        return !matcher.matches();
     }
 
-    public boolean isNameCorrect() {
+    public boolean isNotCorrectName() {
         if (this.name == null || this.lastName == null)
-            return false;
+            return true;
 
-        return this.name.length() > 2 && this.lastName.length() > 2;
+        return this.name.length() <= 2 || this.lastName.length() <= 2;
     }
 }
