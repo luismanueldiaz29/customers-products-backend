@@ -15,6 +15,8 @@ import java.util.Random;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Account {
+    private static final String PREFIX_CHECKING_ACCOUNT = "33";
+    private static final String PREFIX_SAVING_ACCOUNT = "53";
     private Long id;
     private String accountType;
     private String accountNumber;
@@ -25,23 +27,23 @@ public class Account {
     private LocalDateTime updatedAt;
     private Customer customer;
 
-    public boolean balanceIsValid(){
-        return amount.longValue() >= 0;
+    public boolean balanceIsNotValid(){
+        return amount.longValue() < 0;
     }
 
     public String generateAccountNumber() {
         if (accountType.equals(AccountType.CHECKING_ACCOUNT.toString())) {
-            return "33" + generarNumeroAleatorio();
+            return PREFIX_CHECKING_ACCOUNT + generateRandomNumber();
         } else if (accountType.equals(AccountType.SAVING_ACCOUNT.toString())) {
-            return  "53" + generarNumeroAleatorio();
+            return PREFIX_SAVING_ACCOUNT + generateRandomNumber();
         }
         return "";
     }
 
-    private String generarNumeroAleatorio() {
+    private String generateRandomNumber() {
         Random random = new Random();
-        int numeroAleatorio = random.nextInt(90000000) + 10000000; // Rango de 10000000 a 99999999
-        return String.valueOf(numeroAleatorio);
+        int randomNumber = random.nextInt(90000000) + 10000000; // Rango de 10000000 a 99999999
+        return String.valueOf(randomNumber);
     }
 
     public boolean canInactivateAccount(){

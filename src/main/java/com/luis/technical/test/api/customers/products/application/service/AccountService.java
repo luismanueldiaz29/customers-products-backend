@@ -38,8 +38,8 @@ public class AccountService implements ProductUseCase {
     public AccountResponse save(AccountRequest productRequest) {
         Account productNew = productDtoMapper.toDomain(productRequest);
 
-        if (!productNew.balanceIsValid())
-            throw new AccountException("La cuenta no puede tener un valor menos a 0");
+        if (productNew.balanceIsNotValid())
+            throw new AccountException(AccountConstant.BALANCE_IS_NOT_VALID);
 
         productNew.setCreatedAt(LocalDateTime.now());
         productNew.setAccountNumber(productNew.generateAccountNumber());
@@ -64,7 +64,7 @@ public class AccountService implements ProductUseCase {
             throw new CustomerException(AccountConstant.PRODUCT_NOT_FOUND);
 
         Account productUpdate = productDtoMapper.toDomain(productRequest);
-        if (!productUpdate.balanceIsValid())
+        if (productUpdate.balanceIsNotValid())
             throw new AccountException(AccountConstant.BALANCE_IS_NOT_VALID);
         if (productUpdate.getStatus().equals(StatusType.INACTIVE.toString()) && !productResponse.get().canInactivateAccount())
             throw new CustomerException(AccountConstant.ACCOUNT_NOT_INACTIVE_BALANCE_IS_NOT_ZERO);
