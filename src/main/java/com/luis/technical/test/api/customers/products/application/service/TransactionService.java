@@ -20,16 +20,13 @@ import java.util.Optional;
 @Service
 public class TransactionService implements TransactionUseCase {
     private final TransactionPort transactionPort;
-    private final TransactionMapper transactionMapper;
     private final AccountPort productPort;
 
     public TransactionService(
             TransactionPort transactionPort,
-            TransactionMapper transactionMapper,
             AccountPort productPort
     ) {
         this.transactionPort = transactionPort;
-        this.transactionMapper = transactionMapper;
         this.productPort = productPort;
     }
 
@@ -58,17 +55,17 @@ public class TransactionService implements TransactionUseCase {
         productPort.update(sourceAccount.get().getId(), sourceAccount.get());
         Transaction transaction = getTransaction(transactionRequest, destinationAccount, sourceAccount.get());
         Transaction savedTransaction = transactionPort.save(transaction);
-        return transactionMapper.toDto(savedTransaction);
+        return TransactionMapper.mapper.toDto(savedTransaction);
     }
 
     @Override
     public List<TransactionResponse> findAll() {
-        return transactionPort.findAll().stream().map(transactionMapper::toDto).toList();
+        return transactionPort.findAll().stream().map(TransactionMapper.mapper::toDto).toList();
     }
 
     @Override
     public Optional<TransactionResponse> findById(Long id) {
-        return transactionPort.findById(id).map(transactionMapper::toDto);
+        return transactionPort.findById(id).map(TransactionMapper.mapper::toDto);
     }
 
     private Transaction getTransaction(TransactionRequest transactionRequest, Optional<Account> destinationAccount, Account sourceAccount) {

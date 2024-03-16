@@ -19,24 +19,21 @@ import java.util.Optional;
 @Service
 public class AccountService implements ProductUseCase {
     private final AccountPort productPort;
-    private final AccountDtoMapper productDtoMapper;
 
     public AccountService(
-            AccountPort productPort,
-            AccountDtoMapper productDtoMapper
+            AccountPort productPort
     ) {
         this.productPort = productPort;
-        this.productDtoMapper = productDtoMapper;
     }
 
     @Override
     public Optional<AccountResponse> findById(Long id) {
-        return productPort.findById(id).map(productDtoMapper::toDto);
+        return productPort.findById(id).map(AccountDtoMapper.mapper::toDto);
     }
 
     @Override
     public AccountResponse save(AccountRequest productRequest) {
-        Account productNew = productDtoMapper.toDomain(productRequest);
+        Account productNew = AccountDtoMapper.mapper.toDomain(productRequest);
 
         if (productNew.balanceIsNotValid())
             throw new AccountException(AccountConstant.BALANCE_IS_NOT_VALID);
@@ -45,7 +42,7 @@ public class AccountService implements ProductUseCase {
         productNew.setAccountNumber(productNew.generateAccountNumber());
         productNew.setStatus(StatusType.ACTIVE.toString());
         Account product = productPort.save(productNew);
-        return productDtoMapper.toDto(product);
+        return AccountDtoMapper.mapper.toDto(product);
     }
 
     @Override
@@ -63,7 +60,7 @@ public class AccountService implements ProductUseCase {
         if (productResponse.isEmpty())
             throw new CustomerException(AccountConstant.PRODUCT_NOT_FOUND);
 
-        Account productUpdate = productDtoMapper.toDomain(productRequest);
+        Account productUpdate = AccountDtoMapper.mapper.toDomain(productRequest);
         if (productUpdate.balanceIsNotValid())
             throw new AccountException(AccountConstant.BALANCE_IS_NOT_VALID);
         if (productUpdate.getStatus().equals(StatusType.INACTIVE.toString()) && !productResponse.get().canInactivateAccount())
@@ -74,11 +71,11 @@ public class AccountService implements ProductUseCase {
         productUpdate.setUpdatedAt(LocalDateTime.now());
 
         Account product = productPort.update(id, productUpdate);
-        return productDtoMapper.toDto(product);
+        return AccountDtoMapper.mapper.toDto(product);
     }
 
     @Override
     public List<AccountResponse> findByAll() {
-        return productPort.findAll().stream().map(productDtoMapper::toDto).toList();
+        return productPort.findAll().stream().map(AccountDtoMapper.mapper::toDto).toList();
     }
 }
