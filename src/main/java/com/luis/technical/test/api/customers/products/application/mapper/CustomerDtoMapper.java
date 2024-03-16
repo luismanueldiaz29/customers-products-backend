@@ -1,24 +1,20 @@
 package com.luis.technical.test.api.customers.products.application.mapper;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.luis.technical.test.api.customers.products.domain.model.Customer;
 import com.luis.technical.test.api.customers.products.domain.model.dto.request.CustomerRequest;
 import com.luis.technical.test.api.customers.products.domain.model.dto.response.CustomerResponse;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
-@Component
-public class CustomerDtoMapper {
-    private final ObjectMapper objectMapper;
+@Mapper(componentModel = "spring",
+    unmappedTargetPolicy = ReportingPolicy.IGNORE,
+    unmappedSourcePolicy = ReportingPolicy.IGNORE)
+public interface CustomerDtoMapper {
 
-    public CustomerDtoMapper(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
+    CustomerDtoMapper mapper = Mappers.getMapper(CustomerDtoMapper.class);
 
-    public Customer toDomain(CustomerRequest entity){
-        return objectMapper.convertValue(entity, Customer.class);
-    }
+    Customer toDomain(CustomerRequest entity);
 
-    public CustomerResponse toDto(Customer domain){
-        return objectMapper.convertValue(domain, CustomerResponse.class);
-    }
+    CustomerResponse toDto(Customer domain);
 }

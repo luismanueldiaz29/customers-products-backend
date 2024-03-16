@@ -13,25 +13,22 @@ import java.util.Optional;
 @Service
 public class CustomerSpringJpaAdapter implements CustomerPort {
     private final CustomerRepository customerRepository;
-    private final CustomerDboMapper customerDboMapper;
     public CustomerSpringJpaAdapter(
-            CustomerRepository customerRepository,
-            CustomerDboMapper customerDboMapper
+            CustomerRepository customerRepository
     ) {
         this.customerRepository = customerRepository;
-        this.customerDboMapper = customerDboMapper;
     }
 
     @Override
     public Optional<Customer> findById(Long id) {
-        return customerRepository.findById(id).map(customerDboMapper::toDomain);
+        return customerRepository.findById(id).map(CustomerDboMapper.mapper::toDomain);
     }
 
     @Override
     public Customer save(Customer customer) {
-        CustomerEntity customerNew = customerDboMapper.toDbo(customer);
+        CustomerEntity customerNew = CustomerDboMapper.mapper.toDbo(customer);
         CustomerEntity customerEntity = customerRepository.save(customerNew);
-        return customerDboMapper.toDomain(customerEntity);
+        return CustomerDboMapper.mapper.toDomain(customerEntity);
     }
 
     @Override
@@ -41,13 +38,13 @@ public class CustomerSpringJpaAdapter implements CustomerPort {
 
     @Override
     public Customer update(Long id, Customer customer) {
-        CustomerEntity customerNew = customerDboMapper.toDbo(customer);
+        CustomerEntity customerNew = CustomerDboMapper.mapper.toDbo(customer);
         CustomerEntity customerEntity = customerRepository.save(customerNew);
-        return customerDboMapper.toDomain(customerEntity);
+        return CustomerDboMapper.mapper.toDomain(customerEntity);
     }
 
     @Override
     public List<Customer> findAll() {
-        return customerRepository.findAll().stream().map(customerDboMapper::toDomain).toList();
+        return customerRepository.findAll().stream().map(CustomerDboMapper.mapper::toDomain).toList();
     }
 }
