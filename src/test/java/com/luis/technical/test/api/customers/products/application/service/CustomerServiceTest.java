@@ -32,7 +32,6 @@ class CustomerServiceTest {
     private CustomerPort customerPort;
     @InjectMocks
     private CustomerService customerService;
-
     public static final long ID = 1L;
     private CustomerResponse customerResponse;
     private Customer customerMock;
@@ -170,6 +169,7 @@ class CustomerServiceTest {
         Assertions.assertEquals(CustomerConstant.INVALID_EMAIL_FORMAT_ERROR, customerException.getMessage());
     }
 
+
     @Test
     void testDeleteIsInvalidWhenTheCustomerIsNoFound() {
         CustomerException customerException = Assertions.assertThrows(CustomerException.class, () -> customerService.deleteById(ID));
@@ -199,5 +199,12 @@ class CustomerServiceTest {
             Assertions.assertEquals(expectedResponse.getId(), actualResponse.getId());
             Assertions.assertEquals(expectedResponse.getName(), actualResponse.getName());
         }
+    }
+
+    @Test
+    void testFindById() {
+        when(customerPort.findById(any(Long.class))).thenReturn(Optional.of(customerMock));
+        customerService.findById(ID);
+        Mockito.verify(customerPort).findById(ID);
     }
 }
