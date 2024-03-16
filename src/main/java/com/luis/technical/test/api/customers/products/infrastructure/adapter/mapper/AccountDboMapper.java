@@ -1,7 +1,5 @@
 package com.luis.technical.test.api.customers.products.infrastructure.adapter.mapper;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.luis.technical.test.api.customers.products.application.mapper.AccountDtoMapper;
 import com.luis.technical.test.api.customers.products.domain.model.Account;
 import com.luis.technical.test.api.customers.products.infrastructure.adapter.entity.AccountEntity;
 import org.mapstruct.Mapper;
