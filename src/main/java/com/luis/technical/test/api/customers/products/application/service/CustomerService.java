@@ -26,25 +26,23 @@ public class CustomerService implements CustomerUseCase {
 
     @Override
     public Optional<CustomerResponse> findById(Long id) {
-        return customerPort.findById(id).map(CustomerDtoMapper.mapper::toDto);
+        return customerPort.findById(id).map(CustomerDtoMapper.MAPPER::toDto);
     }
 
     @Override
     public CustomerResponse save(CustomerRequest customerRequest) {
-        Customer domain = CustomerDtoMapper.mapper.toDomain(customerRequest);
+        Customer domain = CustomerDtoMapper.MAPPER.toDomain(customerRequest);
 
         if (domain.isNotOlder())
             throw new CustomerException(CustomerConstant.ADULT_VALIDATION_ERROR);
-
         if (domain.isNotCorrectName())
             throw new CustomerException(CustomerConstant.MIN_NAME_OR_LASTNAME_LENGTH_ERROR);
-
         if (domain.isNotValidEmail())
             throw new CustomerException(CustomerConstant.INVALID_EMAIL_FORMAT_ERROR);
 
         domain.setCreatedAt(LocalDateTime.now());
         Customer customerResponse = customerPort.save(domain);
-        return CustomerDtoMapper.mapper.toDto(customerResponse);
+        return CustomerDtoMapper.MAPPER.toDto(customerResponse);
     }
 
     @Override
@@ -62,7 +60,7 @@ public class CustomerService implements CustomerUseCase {
         if (customerResponse.isEmpty())
             throw new CustomerException(CustomerConstant.CUSTOMER_NOT_FOUND);
 
-        Customer customerUpdate = CustomerDtoMapper.mapper.toDomain(customerRequest);
+        Customer customerUpdate = CustomerDtoMapper.MAPPER.toDomain(customerRequest);
 
         if (customerUpdate.isNotOlder())
             throw new CustomerException(CustomerConstant.ADULT_VALIDATION_ERROR);
@@ -77,11 +75,11 @@ public class CustomerService implements CustomerUseCase {
         customerUpdate.setUpdatedAt(LocalDateTime.now());
 
         Customer customer = customerPort.update(id, customerUpdate);
-        return CustomerDtoMapper.mapper.toDto(customer);
+        return CustomerDtoMapper.MAPPER.toDto(customer);
     }
 
     @Override
     public List<CustomerResponse> findByAll() {
-        return customerPort.findAll().stream().map(CustomerDtoMapper.mapper::toDto).toList();
+        return customerPort.findAll().stream().map(CustomerDtoMapper.MAPPER::toDto).toList();
     }
 }

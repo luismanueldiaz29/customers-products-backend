@@ -1,10 +1,7 @@
 package com.luis.technical.test.api.customers.products.domain.model.dto.request;
 
 import com.luis.technical.test.api.customers.products.domain.model.constant.CustomerConstant;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,10 +9,8 @@ import java.time.Period;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
 public class CustomerRequest {
     private String identificationType;
     private String identification;

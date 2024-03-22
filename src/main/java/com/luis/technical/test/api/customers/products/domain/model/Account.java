@@ -1,19 +1,14 @@
 package com.luis.technical.test.api.customers.products.domain.model;
 
 import com.luis.technical.test.api.customers.products.domain.model.enums.AccountType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Random;
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
+@Setter
 public class Account {
     private static final String PREFIX_CHECKING_ACCOUNT = "33";
     private static final String PREFIX_SAVING_ACCOUNT = "53";
@@ -28,7 +23,8 @@ public class Account {
     private Customer customer;
 
     public boolean balanceIsNotValid(){
-        return amount.longValue() < 0;
+        if (amount == null) return true;
+        return amount.longValue() <= 0;
     }
 
     public String generateAccountNumber() {

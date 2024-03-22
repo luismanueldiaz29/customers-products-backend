@@ -18,64 +18,64 @@ import java.util.Optional;
 
 @Service
 public class AccountService implements ProductUseCase {
-    private final AccountPort productPort;
+    private final AccountPort accountPort;
 
     public AccountService(
-            AccountPort productPort
+            AccountPort accountPort
     ) {
-        this.productPort = productPort;
+        this.accountPort = accountPort;
     }
 
     @Override
     public Optional<AccountResponse> findById(Long id) {
-        return productPort.findById(id).map(AccountDtoMapper.mapper::toDto);
+        return accountPort.findById(id).map(AccountDtoMapper.MAPPER::toDto);
     }
 
     @Override
-    public AccountResponse save(AccountRequest productRequest) {
-        Account productNew = AccountDtoMapper.mapper.toDomain(productRequest);
+    public AccountResponse save(AccountRequest accountRequest) {
+        Account accountNew = AccountDtoMapper.MAPPER.toDomain(accountRequest);
 
-        if (productNew.balanceIsNotValid())
+        if (accountNew.balanceIsNotValid())
             throw new AccountException(AccountConstant.BALANCE_IS_NOT_VALID);
 
-        productNew.setCreatedAt(LocalDateTime.now());
-        productNew.setAccountNumber(productNew.generateAccountNumber());
-        productNew.setStatus(StatusType.ACTIVE.toString());
-        Account product = productPort.save(productNew);
-        return AccountDtoMapper.mapper.toDto(product);
+        accountNew.setCreatedAt(LocalDateTime.now());
+        accountNew.setAccountNumber(accountNew.generateAccountNumber());
+        accountNew.setStatus(StatusType.ACTIVE.toString());
+        Account account = accountPort.save(accountNew);
+        return AccountDtoMapper.MAPPER.toDto(account);
     }
 
     @Override
     public void deleteById(Long id) {
-        Optional<Account> productResponse = productPort.findById(id);
-        if (productResponse.isEmpty())
-            throw new CustomerException(AccountConstant.PRODUCT_NOT_FOUND);
+        Optional<Account> accountResponse = accountPort.findById(id);
+        if (accountResponse.isEmpty())
+            throw new CustomerException(AccountConstant.ACCOUNT_NOT_FOUND);
 
-        productPort.deleteById(id);
+        accountPort.deleteById(id);
     }
 
     @Override
-    public AccountResponse update(Long id, AccountRequest productRequest) {
-        Optional<Account> productResponse = productPort.findById(id);
-        if (productResponse.isEmpty())
-            throw new CustomerException(AccountConstant.PRODUCT_NOT_FOUND);
+    public AccountResponse update(Long id, AccountRequest accountRequest) {
+        Optional<Account> accountResponse = accountPort.findById(id);
+        if (accountResponse.isEmpty())
+            throw new CustomerException(AccountConstant.ACCOUNT_NOT_FOUND);
 
-        Account productUpdate = AccountDtoMapper.mapper.toDomain(productRequest);
-        if (productUpdate.balanceIsNotValid())
+        Account accountUpdate = AccountDtoMapper.MAPPER.toDomain(accountRequest);
+        if (accountUpdate.balanceIsNotValid())
             throw new AccountException(AccountConstant.BALANCE_IS_NOT_VALID);
-        if (productUpdate.getStatus().equals(StatusType.INACTIVE.toString()) && !productResponse.get().canInactivateAccount())
+        if (accountUpdate.getStatus().equals(StatusType.INACTIVE.toString()) && !accountResponse.get().canInactivateAccount())
             throw new CustomerException(AccountConstant.ACCOUNT_NOT_INACTIVE_BALANCE_IS_NOT_ZERO);
 
-        productUpdate.setAccountNumber(productResponse.get().getAccountNumber());
-        productUpdate.setCreatedAt(productResponse.get().getCreatedAt());
-        productUpdate.setUpdatedAt(LocalDateTime.now());
+        accountUpdate.setAccountNumber(accountResponse.get().getAccountNumber());
+        accountUpdate.setCreatedAt(accountResponse.get().getCreatedAt());
+        accountUpdate.setUpdatedAt(LocalDateTime.now());
 
-        Account product = productPort.update(id, productUpdate);
-        return AccountDtoMapper.mapper.toDto(product);
+        Account account = accountPort.update(id, accountUpdate);
+        return AccountDtoMapper.MAPPER.toDto(account);
     }
 
     @Override
     public List<AccountResponse> findByAll() {
-        return productPort.findAll().stream().map(AccountDtoMapper.mapper::toDto).toList();
+        return accountPort.findAll().stream().map(AccountDtoMapper.MAPPER::toDto).toList();
     }
 }

@@ -55,25 +55,25 @@ public class TransactionService implements TransactionUseCase {
         productPort.update(sourceAccount.get().getId(), sourceAccount.get());
         Transaction transaction = getTransaction(transactionRequest, destinationAccount, sourceAccount.get());
         Transaction savedTransaction = transactionPort.save(transaction);
-        return TransactionMapper.mapper.toDto(savedTransaction);
+        return TransactionMapper.MAPPER.toDto(savedTransaction);
     }
 
     @Override
     public List<TransactionResponse> findAll() {
-        return transactionPort.findAll().stream().map(TransactionMapper.mapper::toDto).toList();
+        return transactionPort.findAll().stream().map(TransactionMapper.MAPPER::toDto).toList();
     }
 
     @Override
     public Optional<TransactionResponse> findById(Long id) {
-        return transactionPort.findById(id).map(TransactionMapper.mapper::toDto);
+        return transactionPort.findById(id).map(TransactionMapper.MAPPER::toDto);
     }
 
     private Transaction getTransaction(TransactionRequest transactionRequest, Optional<Account> destinationAccount, Account sourceAccount) {
-        return Transaction.builder()
-                .amount(transactionRequest.getAmount())
-                .destinationAccount(destinationAccount.orElse(null))
-                .sourceAccount(sourceAccount)
-                .type(transactionRequest.getType())
-                .build();
+        Transaction transaction = new Transaction();
+        transaction.setAmount(transactionRequest.getAmount());
+        transaction.setDestinationAccount(destinationAccount.orElse(null));
+        transaction.setSourceAccount(sourceAccount);
+        transaction.setType(transactionRequest.getType());
+        return transaction;
     }
 }

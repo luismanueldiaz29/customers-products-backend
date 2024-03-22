@@ -7,12 +7,12 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "spring",
-    unmappedTargetPolicy = ReportingPolicy.IGNORE,
+@Mapper(
+        unmappedTargetPolicy = ReportingPolicy.IGNORE,
     unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface CustomerDtoMapper {
 
-    CustomerDtoMapper mapper = Mappers.getMapper(CustomerDtoMapper.class);
+    CustomerDtoMapper MAPPER = Mappers.getMapper(CustomerDtoMapper.class);
 
     Customer toDomain(CustomerRequest entity);
 

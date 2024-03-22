@@ -2,17 +2,12 @@ package com.luis.technical.test.api.customers.products.domain.model.dto.request;
 
 import com.luis.technical.test.api.customers.products.domain.model.enums.AccountType;
 import com.luis.technical.test.api.customers.products.domain.model.enums.StatusType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
+@Setter
 public class AccountRequest {
     private AccountType accountType;
     private StatusType status;

@@ -39,40 +39,37 @@ class CustomerServiceTest {
     @BeforeEach
     public void setUp(){
         LocalDateTime createdAt = LocalDateTime.now();
-        customerResponse = CustomerResponse.builder()
-                .id(ID)
-                .identificationType("CC")
-                .identification("1003243573")
-                .name("Luis Manuel")
-                .lastName("Diaz Sequea")
-                .email("luismanueldiazsequea@gmail.com")
-                .bornDate(LocalDate.of(1999, 12, 29))
-                .createdAt(createdAt)
-                .updatedAt(null)
-                .build();
 
-        customerMock = Customer.builder()
-                .id(ID)
-                .identificationType("CC")
-                .identification("1003243573")
-                .name("Luis Manuel")
-                .lastName("Diaz Sequea")
-                .email("luismanueldiazsequea@gmail.com")
-                .bornDate(LocalDate.of(1999, 12, 29))
-                .createdAt(createdAt)
-                .updatedAt(null)
-                .build();
+        customerResponse = new CustomerResponse();
+        customerResponse.setId(ID);
+        customerResponse.setIdentificationType("CC");
+        customerResponse.setIdentification("1003243573");
+        customerResponse.setName("Luis Manuel");
+        customerResponse.setLastName("Diaz Sequea");
+        customerResponse.setEmail("luismanueldiazsequea@gmail.com");
+        customerResponse.setBornDate(LocalDate.of(1999, 12, 29));
+        customerResponse.setCreatedAt(createdAt);
+        customerResponse.setUpdatedAt(null);
 
-        customerRequest = CustomerRequest.builder()
-                .identificationType("CC")
-                .identification("1003243573")
-                .name("Luis Manuel")
-                .lastName("Diaz Sequea")
-                .email("luismanueldiazsequea@gmail.com")
-                .bornDate(LocalDate.of(1999, 12, 29))
-                .build();
+        customerMock = new Customer();
+        customerMock.setId(ID);
+        customerMock.setIdentificationType("CC");
+        customerMock.setIdentification("1003243573");
+        customerMock.setName("Luis Manuel");
+        customerMock.setLastName("Diaz Sequea");
+        customerMock.setEmail("luismanueldiazsequea@gmail.com");
+        customerMock.setBornDate(LocalDate.of(1999, 12, 29));
+        customerMock.setCreatedAt(createdAt);
+        customerMock.setUpdatedAt(null);
+
+        customerRequest = new CustomerRequest();
+        customerRequest.setIdentificationType("CC");
+        customerRequest.setIdentification("1003243573");
+        customerRequest.setName("Luis Manuel");
+        customerRequest.setLastName("Diaz Sequea");
+        customerRequest.setEmail("luismanueldiazsequea@gmail.com");
+        customerRequest.setBornDate(LocalDate.of(1999, 12, 29));
     }
-
 
     @Test
     void testSaveValidCustomer() {
@@ -194,7 +191,7 @@ class CustomerServiceTest {
 
         Assertions.assertEquals(customers.size(), customerResponses.size());
         for (int i = 0; i < customers.size(); i++) {
-            CustomerResponse expectedResponse = CustomerDtoMapper.mapper.toDto(customers.get(i));
+            CustomerResponse expectedResponse = CustomerDtoMapper.MAPPER.toDto(customers.get(i));
             CustomerResponse actualResponse = customerResponses.get(i);
             Assertions.assertEquals(expectedResponse.getId(), actualResponse.getId());
             Assertions.assertEquals(expectedResponse.getName(), actualResponse.getName());
