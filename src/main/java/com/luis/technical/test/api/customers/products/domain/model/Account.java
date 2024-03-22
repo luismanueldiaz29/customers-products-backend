@@ -43,7 +43,7 @@ public class Account {
     }
 
     public boolean canInactivateAccount(){
-        return amount.longValue() == 0;
+        return amount.longValue() <= 0;
     }
 
     public boolean isBalanceGreaterThan(BigDecimal anotherAmount) {

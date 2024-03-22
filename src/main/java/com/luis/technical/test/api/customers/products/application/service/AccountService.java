@@ -12,6 +12,7 @@ import com.luis.technical.test.api.customers.products.infrastructure.adapter.exc
 import com.luis.technical.test.api.customers.products.infrastructure.adapter.exception.AccountException;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -49,7 +50,7 @@ public class AccountService implements ProductUseCase {
     public void deleteById(Long id) {
         Optional<Account> accountResponse = accountPort.findById(id);
         if (accountResponse.isEmpty())
-            throw new CustomerException(AccountConstant.ACCOUNT_NOT_FOUND);
+            throw new AccountException(AccountConstant.ACCOUNT_NOT_FOUND);
 
         accountPort.deleteById(id);
     }
@@ -58,13 +59,10 @@ public class AccountService implements ProductUseCase {
     public AccountResponse update(Long id, AccountRequest accountRequest) {
         Optional<Account> accountResponse = accountPort.findById(id);
         if (accountResponse.isEmpty())
-            throw new CustomerException(AccountConstant.ACCOUNT_NOT_FOUND);
-
+            throw new AccountException(AccountConstant.ACCOUNT_NOT_FOUND);
         Account accountUpdate = AccountDtoMapper.MAPPER.toDomain(accountRequest);
-        if (accountUpdate.balanceIsNotValid())
-            throw new AccountException(AccountConstant.BALANCE_IS_NOT_VALID);
-        if (accountUpdate.getStatus().equals(StatusType.INACTIVE.toString()) && !accountResponse.get().canInactivateAccount())
-            throw new CustomerException(AccountConstant.ACCOUNT_NOT_INACTIVE_BALANCE_IS_NOT_ZERO);
+        if (accountUpdate.getStatus().equals(StatusType.CANCEL.toString()) && isValidInactivate(accountRequest, accountResponse.get()))
+            throw new AccountException(AccountConstant.ACCOUNT_NOT_CANCEL_BALANCE_IS_NOT_ZERO);
 
         accountUpdate.setAccountNumber(accountResponse.get().getAccountNumber());
         accountUpdate.setCreatedAt(accountResponse.get().getCreatedAt());
@@ -72,6 +70,10 @@ public class AccountService implements ProductUseCase {
 
         Account account = accountPort.update(id, accountUpdate);
         return AccountDtoMapper.MAPPER.toDto(account);
+    }
+
+    private boolean isValidInactivate(AccountRequest accountRequest, Account accountResponse) {
+        return !accountResponse.canInactivateAccount() || accountRequest.getAmount().compareTo(BigDecimal.ZERO) <= 0;
     }
 
     @Override

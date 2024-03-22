@@ -13,31 +13,28 @@ import java.util.Optional;
 @Service
 public class AccountSpringJpaAdapter implements AccountPort {
     private final AccountRepository productRepository;
-    private final AccountDboMapper productDboMapper;
 
     public AccountSpringJpaAdapter(
-            AccountRepository productRepository,
-            AccountDboMapper productDboMapper
+            AccountRepository productRepository
     ) {
         this.productRepository = productRepository;
-        this.productDboMapper = productDboMapper;
     }
 
     @Override
     public Optional<Account> findById(Long id) {
-        return productRepository.findById(id).map(productDboMapper::toDomain);
+        return productRepository.findById(id).map(AccountDboMapper.MAPPER::toDomain);
     }
 
     @Override
     public Optional<Account> findByAccountNumber(String accountNumber) {
-        return productRepository.findByAccountNumber(accountNumber).map(productDboMapper::toDomain);
+        return productRepository.findByAccountNumber(accountNumber).map(AccountDboMapper.MAPPER::toDomain);
     }
 
     @Override
     public Account save(Account product) {
-        AccountEntity productNew = productDboMapper.toDbo(product);
+        AccountEntity productNew = AccountDboMapper.MAPPER.toDbo(product);
         AccountEntity productEntity = productRepository.save(productNew);
-        return productDboMapper.toDomain(productEntity);
+        return AccountDboMapper.MAPPER.toDomain(productEntity);
     }
 
     @Override
@@ -47,14 +44,14 @@ public class AccountSpringJpaAdapter implements AccountPort {
 
     @Override
     public Account update(Long id, Account product) {
-        AccountEntity productNew = productDboMapper.toDbo(product);
+        AccountEntity productNew = AccountDboMapper.MAPPER.toDbo(product);
         productNew.setId(id);
         AccountEntity productEntity = productRepository.save(productNew);
-        return productDboMapper.toDomain(productEntity);
+        return AccountDboMapper.MAPPER.toDomain(productEntity);
     }
 
     @Override
     public List<Account> findAll() {
-        return productRepository.findAll().stream().map(productDboMapper::toDomain).toList();
+        return productRepository.findAll().stream().map(AccountDboMapper.MAPPER::toDomain).toList();
     }
 }

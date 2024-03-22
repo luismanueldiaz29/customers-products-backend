@@ -10,7 +10,7 @@ import org.mapstruct.factory.Mappers;
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface AccountDboMapper {
-    AccountDboMapper mapper = Mappers.getMapper(AccountDboMapper.class);
+    AccountDboMapper MAPPER = Mappers.getMapper(AccountDboMapper.class);
     AccountEntity toDbo(Account domain);
 
     Account toDomain(AccountEntity domain);
