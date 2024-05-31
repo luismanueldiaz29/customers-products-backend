@@ -15,6 +15,6 @@ public interface AccountDtoMapper {
     AccountDtoMapper MAPPER = Mappers.getMapper(AccountDtoMapper.class);
     AccountResponse toDto(Account entity);
 
-    @Mapping(source = "customerId", target = "customer.id")
+//    @Mapping(source = "customerId", target = "customer.id")
     Account toDomain(AccountRequest domain);
 }
